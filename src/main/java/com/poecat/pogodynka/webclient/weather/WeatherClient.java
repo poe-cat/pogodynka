@@ -1,5 +1,7 @@
 package com.poecat.pogodynka.webclient.weather;
 
+import com.poecat.pogodynka.model.Weather;
+import com.poecat.pogodynka.webclient.weather.dto.OpenWeatherDto;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,10 +12,17 @@ public class WeatherClient {
     private static final String API_KEY = "819401e47a6325ddd8df07f33a902b51";
     private RestTemplate restTemplate = new RestTemplate();
 
-    public String getWeatherForCity(String city) {
-        return callGetMethod(WEATHER_URL + "weather?q={city}&appid={apiKey}&units=metric&lang=pl",
-                String.class,
+    public Weather getWeatherForCity(String city) {
+        OpenWeatherDto openWeatherDto = callGetMethod("weather?q={city}&appid={apiKey}&units=metric&lang=pl",
+                OpenWeatherDto.class,
                 city, API_KEY);
+
+        return Weather.builder()
+                .temperature(openWeatherDto.getMain().getTemp())
+                .pressure(openWeatherDto.getMain().getPressure())
+                .humidity(openWeatherDto.getMain().getHumidity())
+                .windSpeed(openWeatherDto.getWind().getSpeed())
+                .build();
     }
 
     public String getForecast(double lat, double lon) {
