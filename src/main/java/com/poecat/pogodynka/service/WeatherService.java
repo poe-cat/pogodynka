@@ -15,11 +15,6 @@ public class WeatherService {
     private final WeatherClient weatherClient;
 
     public Weather getWeather() {
-        String response = weatherClient.getWeatherForCity("Gdańsk");
-        log.info(response);
-        response = weatherClient.getForecast(52.23, 21.01);
-        log.info(response);
-        return null;
+        return weatherClient.getWeatherForCity("Gdańsk");
     }
-
 }
