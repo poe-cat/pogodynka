@@ -1,26 +1,25 @@
 package com.poecat.pogodynka.service;
 
 import com.poecat.pogodynka.model.Weather;
+import com.poecat.pogodynka.webclient.weather.WeatherClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class WeatherService {
 
-    private static final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/";
-    private static final String API_KEY = "819401e47a6325ddd8df07f33a902b51";
-    private RestTemplate restTemplate = new RestTemplate();
+    private final WeatherClient weatherClient;
 
     public Weather getWeather() {
-        String response = getWeatherForCity("Gdańsk");
+        String response = weatherClient.getWeatherForCity("Gdańsk");
+        log.info(response);
+        response = weatherClient.getForecast(52.23, 21.01);
         log.info(response);
         return null;
     }
 
-    public String getWeatherForCity(String city) {
-        return restTemplate.getForObject(WEATHER_URL + "weather?q={city}&appid={apiKey}&units=metric&lang=pl",
-                String.class, city, API_KEY);
-    }
 }
