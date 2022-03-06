@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 public class WeatherClient {
 
     private static final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/";
-    private static final String API_KEY = "819401e47a6325ddd8df07f33a902b51";
+    private static final String API_KEY = "";
     private RestTemplate restTemplate = new RestTemplate();
 
     public Weather getWeatherForCity(String city) {
